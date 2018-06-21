@@ -17,6 +17,7 @@
       <span>自定义颜色</span>
       <img src="../assets/more.svg" alt="">
     </div>
+    <el-button class="logout" type="danger" @click="logout">退出登录</el-button>
   </div>
   <div class="wrapper" v-else>
     <div class="username">
@@ -26,7 +27,7 @@
       密码：<el-input size="large" type="password"></el-input>
     </div>
     <el-button class="login-btn" type="primary">登录</el-button>
-    <span class="signup">没有账号？<span style="color: red;">点击注册</span></span>
+    <span class="signup">没有账号？<span style="color: red;" @click="signup">点击注册</span></span>
   </div>
 </div>
 </template>
@@ -41,6 +42,15 @@
     },
     computed: {
       username: () => store.state.username
+    },
+    methods: {
+      logout() {
+        store.commit('setUsername', '')
+        this.$router.go('/')
+      },
+      signup() {
+        this.$router.push('signup')
+      }
     }
   }
 </script>
@@ -100,10 +110,16 @@
     height: 8rem;
     border-bottom: 2px solid #ccc;
     align-items: center;
-    font-size: 3rem;
+    font-size: 2.5rem;
     padding: 0 2rem 0 4rem;
   }
   .login .device img {
     height: 5rem;
+  }
+  .login .logout {
+    width: 23rem;
+    height: 6rem;
+    font-size: 3rem;
+    margin-top: 6rem;
   }
 </style>

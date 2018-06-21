@@ -1,54 +1,63 @@
 import Vue from 'Vue';
 import Vuex from 'Vuex';
+import createPersistedState from 'vuex-persistedstate'
 Vue.use(Vuex);
 
 export default new Vuex.Store({
+  plugins: [
+    createPersistedState({
+      path: [
+        'username',
+        'device'
+      ]
+    })
+  ],
   state: {
     // device type 1.照明 2.测量 3.其他
     device: [{
-      name: '客厅的灯',
-      room: '客厅',
-      type: 1,
-      value: null,
-      switch: true,
-      online: true
-    }, {
-      name: '卫生间的灯',
-      room: '卫生间',
-      type: 1,
-      value: null,
-      switch: false,
-      online: true
-    }, {
-      name: '阳台的灯',
-      room: '阳台',
-      type: 1,
-      value: null,
-      switch: false,
-      online: true
-    }, {
-      name: '阳台的温度计',
-      room: '阳台',
-      type: 2,
-      value: '23°C',
-      switch: true,
-      online: true
-    }, {
-      name: '客厅的电视',
-      room: '客厅',
-      type: 3,
-      value: null,
-      switch: false,
-      online: true
-    }, {
-      name: '卧室的电视',
-      room: '卧室',
-      type: 3,
-      value: null,
-      switch: true,
-      online: true
-    }, ],
-    username: '',
+        name: '客厅的灯',
+        room: '客厅',
+        type: 1,
+        value: null,
+        switch: true,
+        online: true
+      }, {
+        name: '卫生间的灯',
+        room: '卫生间',
+        type: 1,
+        value: null,
+        switch: false,
+        online: true
+      }, {
+        name: '阳台的灯',
+        room: '阳台',
+        type: 1,
+        value: null,
+        switch: false,
+        online: true
+      }, {
+        name: '阳台的温度计',
+        room: '阳台',
+        type: 2,
+        value: '23°C',
+        switch: true,
+        online: true
+      }, {
+        name: '客厅的电视',
+        room: '客厅',
+        type: 3,
+        value: null,
+        switch: false,
+        online: true
+      }, {
+        name: '卧室的电视',
+        room: '卧室',
+        type: 3,
+        value: null,
+        switch: true,
+        online: true
+      }],
+    username: 'zcy',
     user_id: 0,
     group: '',
     score: 0,
@@ -56,6 +65,16 @@ export default new Vuex.Store({
   mutations: {
     setDevice(state, data) {
       state.device = data
+    },
+    setUsername(state,data) {
+      state.username = data
+    },
+    delDevice(state, data) {
+      state.device.forEach((v,i) => {
+        if (v.name === data) {
+          state.device.splice(i, 1)
+        }
+      })
     }
   },
   getters: {

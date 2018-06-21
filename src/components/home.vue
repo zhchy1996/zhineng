@@ -12,7 +12,7 @@
       </div>
     </div>
     <!-- 在线设备开始 -->
-    <div class="online-dev">
+    <div class="online-dev" @click="goDevList('online')">
       <div class="dev-wrapper">
         <div class="title">
         在线设备数:{{this.onlineDev.length}}
@@ -26,10 +26,10 @@
       <img src="../assets/more.svg" alt="">
     </div>
     <!-- 运行设备开始 -->
-    <div class="online-dev">
+    <div class="online-dev"  @click="goDevList('on')">
       <div class="dev-wrapper">
         <div class="title">
-        在线设备数:{{this.onDev.length}}
+        运行设备数:{{this.onDev.length}}
         </div>
         <div class="items">
           <span>照明设备：{{this.on.light}}</span>
@@ -40,7 +40,7 @@
       <img src="../assets/more.svg" alt="">
     </div>
     <!-- 测量设备开始 -->
-    <div class="online-dev">
+    <div class="online-dev"  @click="goDevList('measure')">
       <div class="dev-wrapper">
         <div class="title">
         测量设备
@@ -125,6 +125,11 @@
           other
         }
       }
+    },
+    methods: {
+      goDevList(i) {
+        this.$router.push({path: 'devList', query:{dev: i}})
+      }
     }
   }
 </script>
@@ -145,7 +150,7 @@
     flex-direction: column;
     height: 6rem;
     justify-content: space-between;
-    
+
   }
   .weather div span.date-info {
     font-weight: bold;

@@ -38,11 +38,11 @@ export default {
   data () {
     return {
       // 当前tab
-      tab: 'room',
+      tab: 'home',
     }
   },
   computed: {
-  
+
   },
   methods: {
     changeTab(index) {
@@ -56,7 +56,7 @@ export default {
 <style scoped>
   .el-container {
    height: 100vh;
-   overflow: hidden; 
+   overflow: hidden;
    padding: 0;
   }
   .el-main {
