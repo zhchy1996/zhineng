@@ -8,6 +8,8 @@ const devList = () =>
   import ('../components/devList.vue')
 const detail = () =>
   import ('../components/detail.vue')
+const editRoom = () =>
+  import ('../components/editRoom.vue')
 
 Vue.use(Router)
 
@@ -29,5 +31,9 @@ export default new Router({
     path: '/detail',
     name: 'detail',
     component: detail
+  }, {
+    path: '/editRoom',
+    name: 'editRoom',
+    component: editRoom
   }]
 })

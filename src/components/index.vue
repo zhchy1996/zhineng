@@ -1,9 +1,11 @@
 <template>
   <el-container>
     <el-main>
-      <home v-if="tab === 'home'"></home>
-      <room v-if="tab === 'room'"></room>
-      <mine v-if="tab === 'mine'"></mine>
+      <transition name="fade">
+        <home v-if="tab === 'home'"></home>
+        <room v-if="tab === 'room'"></room>
+        <mine v-if="tab === 'mine'"></mine>
+      </transition>
     </el-main>
     <el-footer>
       <el-row class="tabs">
@@ -90,4 +92,18 @@ export default {
     background: #409EFF;
     color: #fff;
   }
+  /* 开始过渡阶段,动画出去阶段 */
+.fade-enter-active,.fade-leave-active{
+  transition: all 0.5s ease-out;
+}
+/* 进入开始 */
+.fade-enter{
+  transform: translateX(-500px);
+  opacity: 0;
+}
+/* 出去终点 */
+.fade-leave-active{
+  transform: translateX(-500px);
+  opacity: 0;
+}
 </style>

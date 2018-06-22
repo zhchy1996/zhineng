@@ -15,48 +15,62 @@ export default new Vuex.Store({
   state: {
     // device type 1.照明 2.测量 3.其他
     device: [{
-        name: '客厅的灯',
-        room: '客厅',
-        type: 1,
-        value: null,
-        switch: true,
-        online: true
-      }, {
-        name: '卫生间的灯',
-        room: '卫生间',
-        type: 1,
-        value: null,
-        switch: false,
-        online: true
-      }, {
-        name: '阳台的灯',
-        room: '阳台',
-        type: 1,
-        value: null,
-        switch: false,
-        online: true
-      }, {
-        name: '阳台的温度计',
-        room: '阳台',
-        type: 2,
-        value: '23°C',
-        switch: true,
-        online: true
-      }, {
-        name: '客厅的电视',
-        room: '客厅',
-        type: 3,
-        value: null,
-        switch: false,
-        online: true
-      }, {
-        name: '卧室的电视',
-        room: '卧室',
-        type: 3,
-        value: null,
-        switch: true,
-        online: true
-      }],
+      name: '客厅的灯',
+      room: '客厅',
+      type: 1,
+      value: null,
+      switch: true,
+      online: true
+    }, {
+      name: '卫生间的灯',
+      room: '卫生间',
+      type: 1,
+      value: null,
+      switch: false,
+      online: true
+    }, {
+      name: '阳台的灯',
+      room: '阳台',
+      type: 1,
+      value: null,
+      switch: false,
+      online: true
+    }, {
+      name: '阳台的温度计',
+      room: '阳台',
+      type: 2,
+      value: '23°C',
+      switch: true,
+      online: true
+    }, {
+      name: '客厅的电视',
+      room: '客厅',
+      type: 3,
+      value: null,
+      switch: false,
+      online: true
+    }, {
+      name: '卧室的电视',
+      room: '卧室',
+      type: 3,
+      value: null,
+      switch: true,
+      online: true
+    }, {
+      name: '厨房的锅',
+      room: '厨房',
+      type: 3,
+      value: null,
+      switch: true,
+      online: true
+    }, {
+      name: '卧室2的灯',
+      room: '卧室2',
+      type: 1,
+      value: null,
+      switch: true,
+      online: true
+    }],
     username: 'zcy',
     user_id: 0,
     group: '',
@@ -66,13 +80,32 @@ export default new Vuex.Store({
     setDevice(state, data) {
       state.device = data
     },
-    setUsername(state,data) {
+    setUsername(state, data) {
       state.username = data
     },
     delDevice(state, data) {
-      state.device.forEach((v,i) => {
+      state.device.forEach((v, i) => {
         if (v.name === data) {
           state.device.splice(i, 1)
+        }
+      })
+    },
+    addDevice(state, data) {
+      state.device.push(data)
+    },
+    reName(state, data) {
+      let dev = state.device
+      dev.forEach((v, i) => {
+        if (v.name === data.old) {
+          state.device[i].name = data.new
+        }
+      })
+    },
+    reRoom(state, data) {
+      let dev = state.device
+      dev.forEach((v, i) => {
+        if (v.room === data.old) {
+          state.device[i].room = data.new
         }
       })
     }

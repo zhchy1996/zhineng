@@ -1,8 +1,11 @@
 <template>
-  <div class="wrapper">
-    <div class="room" v-for="item in rooms" @click="goList(item)">
-      {{item}}
+  <div class="edit-room">
+    <div class="room" v-for="(item,i) in rooms">
+      <el-input v-model="rooms[i]"></el-input>
     </div>
+    <!-- <div class="add" @click="addRoom">
+      <i class="el-icon-circle-plus"></i>
+    </div> -->
   </div>
 </template>
 
@@ -18,15 +21,13 @@
       rooms: () => store.getters.rooms
     },
     methods: {
-      goList(item) {
-        this.$router.push({path: '/devList', query: {dev: 'room', room: item}})
-      }
+      
     }
   }
 </script>
 
 <style scoped>
-  .wrapper {
+.edit-room {
     display: flex;
     flex-wrap: wrap;
     text-align: center;
@@ -36,13 +37,19 @@
     padding: 2rem 2rem;
     box-sizing: border-box;
   }
-  .wrapper .room {
-    width: 10rem;
-    height: 10rem;
+  .edit-room .room,.add {
+    width: 6rem;
+    height: 6rem;
     border: 2px solid #ccc;
-    line-height: 10rem;
+    line-height: 6rem;
     margin-top: 2rem;
     font-size: 3rem;
     font-weight: bold;
+    padding:2rem 2rem;
+    /* box-szing: border-box; */
+  }
+  .edit-room .add i{
+    font-size: 8rem;
+    line-height: inherit;
   }
 </style>

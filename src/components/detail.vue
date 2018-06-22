@@ -3,9 +3,9 @@
     <div class="header">
       <div>
         设备名称:
-        <el-input v-model="devName" :placeholder="devName"></el-input>
+        <el-input v-model="devName" :placeholder="devName" @change="reName"></el-input>
       </div>
-      <el-select  v-model="devRoom" placeholder="请选择">
+      <el-select  v-model="devRoom" placeholder="请选择" @change="reRoom">
         <el-option
           v-for="item in options"
           :key="item"
@@ -15,17 +15,17 @@
       </el-select>
     </div>
     <!--控制部分-->
-    <div class="control" v-show="dev.type !== 2">
+    <div class="control" v-if="dev.type !== 2">
       <div v-for="item in controls" class="control-item" @click="getControl">
         {{item}}
       </div>
     </div>
     <!--数据展示部分-->
-    <div class="value">
+    <div class="value" v-else>
       <div class="now">
         当前温度：{{dev.value}}
       </div>
-      <div id="myChart" :style="{width: '300px', height: '300px'}"></div>
+      <div id="myChart" :style="{width: '350px', height: '300px'}"></div>
     </div>
     <el-button class="delDev" type="danger" @click="dialogShow = true">删除设备</el-button>
     <!--对话框-->
@@ -44,15 +44,23 @@
 
 <script>
   import store from '../store/store'
+  let echarts = require('echarts/lib/echarts')
+  // 引入柱状图组件
+  require('echarts/lib/chart/line')
+  // 引入提示框和title组件
+  require('echarts/lib/component/tooltip')
+  require('echarts/lib/component/title')
   export default {
     data() {
       return {
         dev: this.$route.query,
         devName: this.$route.query.name,
-        devRoom: '',
+        devRoom: this.$route.query.room,
         // lightControl: ['开启','关闭','升色温', '降色温', '升亮度', '降亮度'],
         dialogShow: false,
-        controls: []
+        controls: [],
+        oldRoom: '',
+        oldName: ''
       }
     },
     mounted() {
@@ -65,6 +73,8 @@
       if (this.dev.type === 2) {
         this.drawLine();
       }
+      this.oldRoom = this.dev.room
+      this.oldName = this.dev.name
     },
     computed: {
       options: () => store.getters.rooms
@@ -83,23 +93,47 @@
       },
       drawLine() {
           // 基于准备好的dom，初始化echarts实例
-          let myChart = this.$echarts.init(document.getElementById('myChart'))
+          let myChart = echarts.init(document.getElementById('myChart'))
           // 绘制图表
           myChart.setOption({
-            title: { text: '温度' , left:'center'},
+            title: { text: '历史温度' , left:'center'},
             tooltip: {},
             xAxis: {
               type: 'category',
-              data: ['0:00', '1:00', '2:00', '3:00', '4:00', '5:00', '6:00']
+              data: ['0:00', '1:00', '2:00', '3:00', '4:00', '5:00', '6:00'],
             },
             yAxis: {
-              type: 'value'
+              type: 'value',
+              axisLabel: {
+                formatter: '{value}°C'
+              }
             },
             series: [{
               data: [25, 24, 22, 26, 27, 28, 30],
               type: 'line'
             }]
           });
+      },
+      reName() {
+        let dev = store.state.device
+        let lock = false;
+        let $this = this
+        dev.forEach(function (v) {
+          if ($this.devName === v.name) {
+            lock = true
+          }
+        })
+        if (lock) {
+          this.$message({
+            message: '名字重复',
+            type: 'error'
+          })
+          this.devName = this.oldName
+        }
+        store.commit('reName', {old: this.oldName, new: this.devName})
+      },
+      reRoom() {
+        store.commit('reRoom', {old: this.oldRoom, new: this.devRoom})
       }
     }
   }
@@ -114,7 +148,7 @@
   .detail .header{
     display: flex;
     border-bottom: 2px solid #ccc;
-    padding: 1rem 0;
+    padding: 1.5rem 0;
     height: 3rem;
     line-height: 3rem;
     justify-content: space-around;

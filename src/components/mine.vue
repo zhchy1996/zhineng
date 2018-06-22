@@ -5,11 +5,11 @@
       <img src="../assets/touxiang.jpg" alt="">
       <span class="username">{{username}}</span>
     </div>
-    <div class="device">
+    <div class="device" @click="goList">
       <span>我的设备</span>
       <img src="../assets/more.svg" alt="">
     </div>
-    <div class="device">
+    <div class="device" @click="addRoom">
       <span>自定义房间</span>
       <img src="../assets/more.svg" alt="">
     </div>
@@ -21,12 +21,12 @@
   </div>
   <div class="wrapper" v-else>
     <div class="username">
-      用户名：<el-input size="large"></el-input>
+      用户名：<el-input size="large" v-model="logUsername"></el-input>
     </div>
     <div class="password">
-      密码：<el-input size="large" type="password"></el-input>
+      密码：<el-input size="large" type="password" v-model="logPassword"></el-input>
     </div>
-    <el-button class="login-btn" type="primary">登录</el-button>
+    <el-button class="login-btn" type="primary" @click="login">登录</el-button>
     <span class="signup">没有账号？<span style="color: red;" @click="signup">点击注册</span></span>
   </div>
 </div>
@@ -37,7 +37,8 @@
   export default {
     data() {
       return {
-
+        logUsername: '',
+        logPassword: ''
       }
     },
     computed: {
@@ -46,10 +47,87 @@
     methods: {
       logout() {
         store.commit('setUsername', '')
+        store.commit('setDevice', [])
         this.$router.go('/')
       },
       signup() {
         this.$router.push('signup')
+      },
+      goList() {
+        this.$router.push({path: 'devList', query: {dev: 'online'}})
+      },
+      login() {
+        let $this = this;
+        if (this.logUsername === 'zcy' && this.logPassword === 'zcy') {
+          store.commit('setUsername', 'zcy')
+          store.commit('setDevice', [{
+      name: '客厅的灯',
+      room: '客厅',
+      type: 1,
+      value: null,
+      switch: true,
+      online: true
+    }, {
+      name: '卫生间的灯',
+      room: '卫生间',
+      type: 1,
+      value: null,
+      switch: false,
+      online: true
+    }, {
+      name: '阳台的灯',
+      room: '阳台',
+      type: 1,
+      value: null,
+      switch: false,
+      online: true
+    }, {
+      name: '阳台的温度计',
+      room: '阳台',
+      type: 2,
+      value: '23°C',
+      switch: true,
+      online: true
+    }, {
+      name: '客厅的电视',
+      room: '客厅',
+      type: 3,
+      value: null,
+      switch: false,
+      online: true
+    }, {
+      name: '卧室的电视',
+      room: '卧室',
+      type: 3,
+      value: null,
+      switch: true,
+      online: true
+    }, {
+      name: '厨房的锅',
+      room: '厨房',
+      type: 3,
+      value: null,
+      switch: true,
+      online: true
+    }, {
+      name: '卧室2的灯',
+      room: '卧室2',
+      type: 1,
+      value: null,
+      switch: true,
+      online: true
+    }])
+          this.$message({
+            message: '登录成功',
+            type: 'success'
+          })
+          setTimeout(() => {
+            $this.$router.go(0)
+          }, 500);
+        }
+      },
+      addRoom() {
+        this.$router.push('/editRoom')
       }
     }
   }
@@ -120,6 +198,6 @@
     width: 23rem;
     height: 6rem;
     font-size: 3rem;
-    margin-top: 6rem;
+    margin-top: 3rem;
   }
 </style>

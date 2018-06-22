@@ -31,9 +31,10 @@
       }
     },
     mounted() {
-      // let $this = this;
+      let $this = this;
       // 获取参数
       let query = this.$route.query.dev
+      let room = this.$route.query.room
       // 在线设备列表生成
       if (query === 'online') {
         this.devList = store.getters.onlineDev
@@ -41,6 +42,15 @@
         this.devList = store.getters.onDev
       } else if (query === 'measure') {
         this.devList = store.getters.measureDev
+      } else if (query === 'room') {
+        let arr = []
+        let dev = store.state.device
+        dev.forEach((v) => {
+          if (v.room === room) {
+            arr.push(v)
+          }
+        })
+        this.devList = arr
       }
       this.devList.forEach((v) => {
         v.itemShow =true
