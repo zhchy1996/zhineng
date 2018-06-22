@@ -1,49 +1,54 @@
 <template>
-  <div class="detail">
-    <div class="header">
-      <div>
-        设备名称:
-        <el-input v-model="devName" :placeholder="devName" @change="reName"></el-input>
+  <div>
+    <my-header title="设备详情"></my-header>
+    <div class="detail">
+      <div class="header">
+        <div>
+          设备名称:
+          <el-input v-model="devName" :placeholder="devName" @change="reName"></el-input>
+        </div>
+        <el-select  v-model="devRoom" placeholder="请选择" @change="reRoom">
+          <el-option
+            v-for="item in options"
+            :key="item"
+            :label="item"
+            :value="item">
+          </el-option>
+        </el-select>
       </div>
-      <el-select  v-model="devRoom" placeholder="请选择" @change="reRoom">
-        <el-option
-          v-for="item in options"
-          :key="item"
-          :label="item"
-          :value="item">
-        </el-option>
-      </el-select>
-    </div>
-    <!--控制部分-->
-    <div class="control" v-if="dev.type !== 2">
-      <div v-for="item in controls" class="control-item" @click="getControl">
-        {{item}}
+      <!--控制部分-->
+      <div class="control" v-if="dev.type !== 2">
+        <div v-for="item in controls" class="control-item" @click="getControl">
+          {{item}}
+        </div>
       </div>
-    </div>
-    <!--数据展示部分-->
-    <div class="value" v-else>
-      <div class="now">
-        当前温度：{{dev.value}}
+      <!--数据展示部分-->
+      <div class="value" v-else>
+        <div class="now">
+          当前温度：{{dev.value}}
+        </div>
+        <div id="myChart" :style="{width: '350px', height: '300px'}"></div>
       </div>
-      <div id="myChart" :style="{width: '350px', height: '300px'}"></div>
-    </div>
-    <el-button class="delDev" type="danger" @click="dialogShow = true">删除设备</el-button>
-    <!--对话框-->
-    <el-dialog
-      title="提示"
-      :visible.sync="dialogShow"
-      width="65%">
-      <span>确定删除{{devName}}吗？</span>
-      <span slot="footer" class="dialog-footer">
+      <el-button class="delDev" type="danger" @click="dialogShow = true">删除设备</el-button>
+      <!--对话框-->
+      <el-dialog
+        title="提示"
+        :visible.sync="dialogShow"
+        width="65%">
+        <span>确定删除{{devName}}吗？</span>
+        <span slot="footer" class="dialog-footer">
         <el-button @click="dialogShow = false">取 消</el-button>
         <el-button type="primary" @click="delDev">确 定</el-button>
       </span>
-    </el-dialog>
+      </el-dialog>
+    </div>
   </div>
+
 </template>
 
 <script>
   import store from '../store/store'
+  import myHeader from './header.vue'
   let echarts = require('echarts/lib/echarts')
   // 引入柱状图组件
   require('echarts/lib/chart/line')
@@ -78,6 +83,9 @@
     },
     computed: {
       options: () => store.getters.rooms
+    },
+    components: {
+      myHeader
     },
     methods: {
       getControl() {

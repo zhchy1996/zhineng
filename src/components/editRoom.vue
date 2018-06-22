@@ -1,16 +1,20 @@
 <template>
-  <div class="edit-room">
-    <div class="room" v-for="(item,i) in rooms">
-      <el-input v-model="rooms[i]"></el-input>
+  <div>
+    <my-header title="自定义房间"></my-header>
+    <div class="edit-room">
+      <div class="room" v-for="(item,i) in rooms">
+        <el-input v-model="rooms[i]"></el-input>
+      </div>
+      <!-- <div class="add" @click="addRoom">
+        <i class="el-icon-circle-plus"></i>
+      </div> -->
     </div>
-    <!-- <div class="add" @click="addRoom">
-      <i class="el-icon-circle-plus"></i>
-    </div> -->
   </div>
 </template>
 
 <script>
   import store from '../store/store'
+  import myHeader from './header.vue'
   export default {
     data() {
       return {
@@ -21,7 +25,10 @@
       rooms: () => store.getters.rooms
     },
     methods: {
-      
+
+    },
+    components: {
+      myHeader
     }
   }
 </script>

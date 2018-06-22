@@ -1,20 +1,24 @@
 <template>
-  <div class="signup">
-    <div class="username">
-      用户名：<el-input size="large" v-model="username"></el-input>
+  <div>
+    <my-header title="注册"></my-header>
+    <div class="signup">
+      <div class="username">
+        用户名：<el-input size="large" v-model="username"></el-input>
+      </div>
+      <div class="password">
+        密码：<el-input size="large" type="password" v-model="password"></el-input>
+      </div>
+      <div class="password">
+        确认密码：<el-input size="large" type="password" v-model="surePassword"></el-input>
+      </div>
+      <el-button class="login-btn" type="primary" @click="signup">注册</el-button>
     </div>
-    <div class="password">
-      密码：<el-input size="large" type="password" v-model="password"></el-input>
-    </div>
-    <div class="password">
-      确认密码：<el-input size="large" type="password" v-model="surePassword"></el-input>
-    </div>
-    <el-button class="login-btn" type="primary" @click="signup">注册</el-button>
   </div>
 </template>
 
 <script>
   import store from '../store/store'
+  import myHeader from './header.vue'
   export default {
     data() {
       return {
@@ -42,6 +46,9 @@
           })
         }
       }
+    },
+    components: {
+      myHeader
     }
   }
 </script>

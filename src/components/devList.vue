@@ -1,21 +1,24 @@
 <template>
-  <div class="dev-list">
-    <div class="search">
-      <el-input
-        placeholder="请输入内容"
-        prefix-icon="el-icon-search"
-        v-model="searchItem"
-        clearable>
-      </el-input>
-    </div>
-    <div class="list">
-      <div class="item" v-for="item in devList" v-show="item.itemShow">
-        <span @click="goDetail(item)">{{item.name}}</span>
-        <el-switch
-          v-model="item.switch"
-          active-color="#13ce66"
-          inactive-color="#ff4949">
-        </el-switch>
+  <div>
+    <my-header title="设备列表"></my-header>
+    <div class="dev-list">
+      <div class="search">
+        <el-input
+          placeholder="请输入内容"
+          prefix-icon="el-icon-search"
+          v-model="searchItem"
+          clearable>
+        </el-input>
+      </div>
+      <div class="list">
+        <div class="item" v-for="item in devList" v-show="item.itemShow">
+          <span @click="goDetail(item)">{{item.name}}</span>
+          <el-switch
+            v-model="item.switch"
+            active-color="#13ce66"
+            inactive-color="#ff4949">
+          </el-switch>
+        </div>
       </div>
     </div>
   </div>
@@ -23,6 +26,7 @@
 
 <script>
   import store from '../store/store'
+  import myHeader from './header.vue'
   export default {
     data() {
       return {
@@ -72,6 +76,9 @@
           }
         })
       }
+    },
+    components: {
+      myHeader
     }
   }
 </script>
